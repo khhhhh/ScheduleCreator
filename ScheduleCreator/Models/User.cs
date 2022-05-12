@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace SchedulePlan.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
-        public string Email { get; set; } = string.Empty;
-
         [MaxLength(64)]
         public string Password { get; set; } = string.Empty;
 

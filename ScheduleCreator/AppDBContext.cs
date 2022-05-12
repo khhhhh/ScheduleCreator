@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SchedulePlan.Models;
 
 namespace SchedulePlan.DataAccess
 {
-    public class AppDBContext : DbContext
+    public class AppDBContext : IdentityDbContext<User>
     {
         public AppDBContext(DbContextOptions options) : base(options) { }
 
