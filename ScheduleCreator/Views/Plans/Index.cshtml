@@ -1,29 +1,30 @@
 ﻿@model IEnumerable<SchedulePlan.Models.Plan>
 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>View</h1>
+<h1>Your Plans</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table text-light">
+<table class="table">
     <thead>
         <tr>
-            <th>
+            <th class="text-light">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
+                <a id="manage" class="btn btn-primary" asp-area="" asp-controller="Lessons" asp-route-id="@item.Id" asp-action="Index">
                 @Html.DisplayFor(modelItem => item.Name)
+                </a>
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

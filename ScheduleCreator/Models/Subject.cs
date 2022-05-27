@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchedulePlan.Models
 {
@@ -8,8 +9,9 @@ namespace SchedulePlan.Models
 
         [MaxLength(30)]
         public string Name { get; set; }  = string.Empty;
-        public User User { get; set; }
-        //public int UserId;
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
+        public string UserId = String.Empty;
 
     }
 }

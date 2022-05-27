@@ -1,0 +1,42 @@
+﻿@model IEnumerable<SchedulePlan.Models.Lesson>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.First().Plan.Name</h1>
+
+<p>
+    <a asp-action="Create" asp-route-id="@ViewBag.LinkableId">Create New</a>
+</p>
+<div class="d-flex">
+    @for (int i = 1; i < 7; i++)
+    {
+        <div class="flex-fill border border-white" style="width: 16%">
+            <div class="border-bottom border-white text-center">
+                @Enum.GetName(typeof(DayOfWeek),i)
+                <!--<button class="accordion-button d-none d-sm-block d-md-none">next</button>-->
+            </div>
+            @foreach (var item in Model.Where(x => x.Day == i))
+            {
+            <div class="card bg-light text-dark mt-2">
+                <div class="card-header">
+                    @Html.DisplayFor(modelItem => item.StartTime.TimeOfDay)
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </h5>
+                    <a class="card-link" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="card-link" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a class="card-link" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </div>
+                <div class="card-footer">
+                    @Html.DisplayFor(modelItem => item.EndTime.TimeOfDay)
+                </div>
+            </div>
+            }
+        </div>
+    }
+</div>
