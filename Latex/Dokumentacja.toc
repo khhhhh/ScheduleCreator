@@ -1,0 +1,8 @@
+\contentsline {chapter}{Pierwsze zagadnenia}{2}{}%
+\contentsline {chapter}{Krótki opis aplikacji}{3}{}%
+\contentsline {chapter}{Rejestracja/Logowanie}{5}{}%
+\contentsline {chapter}{CRUD przedmioty}{8}{}%
+\contentsline {chapter}{CRUD Planów}{11}{}%
+\contentsline {chapter}{Tworzenie planu}{14}{}%
+\contentsline {chapter}{Adaptywność}{17}{}%
+\contentsline {chapter}{Wnioski}{18}{}%
