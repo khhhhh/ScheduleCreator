@@ -8,7 +8,8 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="me-auto nav-item">
-            <a id="manage" class="nav-link text-light" asp-area="" asp-controller="Plans" asp-action="Index" title="Plans">Plans</a>
+            <a id="manage" class="nav-link text-light d-sm-inline-block" asp-area="" asp-controller="Plans" asp-action="Index" title="Plans">Plans</a>
+            <a id="manage" class="nav-link text-light d-sm-inline-block" asp-area="" asp-controller="Subjects" asp-action="Index" title="Subjects">Subjects</a>
         </li>
         <li class="nav-item">
             <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>

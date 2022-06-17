@@ -5,18 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@Model.First().Plan.Name</h1>
+<h1>@ViewBag.PlanName</h1>
 
 <p>
     <a asp-action="Create" asp-route-id="@ViewBag.LinkableId">Create New</a>
 </p>
-<div class="d-flex">
+<div class="d-flex flex-column flex-xl-row ">
     @for (int i = 1; i < 7; i++)
     {
-        <div class="flex-fill border border-white" style="width: 16%">
-            <div class="border-bottom border-white text-center">
+        <div class="border border-white" style="min-width: 16%">
+            <div class="border-bottom border-white text-center" >
                 @Enum.GetName(typeof(DayOfWeek),i)
-                <!--<button class="accordion-button d-none d-sm-block d-md-none">next</button>-->
             </div>
             @foreach (var item in Model.Where(x => x.Day == i))
             {
@@ -40,3 +39,8 @@
         </div>
     }
 </div>
+<script>
+    for (var i = 1; i < 7; i++) {
+        var el = document.getElementsById()
+    }
+</script>

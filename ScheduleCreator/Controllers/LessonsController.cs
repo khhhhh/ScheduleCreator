@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using SchedulePlan.Models;
 
 namespace ScheduleCreator.Controllers
 {
+    [Authorize]
     public class LessonsController : Controller
     {
         private readonly AppDBContext _context;
@@ -30,6 +32,11 @@ namespace ScheduleCreator.Controllers
                     .OrderBy(x => x.Day)
                     .ThenBy(x => x.StartTime.TimeOfDay);
             ViewBag.LinkableId = id;
+            ViewBag.PlanName = await _context
+                .Plans
+                .Where(x => x.Id == id)
+                .Select(x => x.Name)
+                .FirstAsync();
             return lessons != null ?
                         View(await lessons.ToListAsync()) :
                         Problem("Entity set 'AppDBContext.Lessons'  is null.");
@@ -56,7 +63,13 @@ namespace ScheduleCreator.Controllers
         // GET: Lessons/Create
         public IActionResult Create(int? id)
         {
-            ViewBag.Plan = _context.Plans.First(x => x.Id == id);
+            ViewBag.LinkableId = id;
+            var subjects = _context
+                .Subjects
+                .Include(x => x.User)
+                .Where(x =>
+                    x.User.Email.Equals(User.Identity.Name)).Select(x => x.Name).ToList();
+            ViewBag.Subjects = subjects;
             return View();
         }
 

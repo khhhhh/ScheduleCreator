@@ -11,49 +11,50 @@ using SchedulePlan.Models;
 
 namespace ScheduleCreator.Controllers
 {
+
     [Authorize]
-    public class PlansController : Controller
+    public class SubjectsController : Controller
     {
         private readonly AppDBContext _context;
 
-        public PlansController(AppDBContext context)
+        public SubjectsController(AppDBContext context)
         {
             _context = context;
         }
 
-        // GET: Plans
+        // GET: Subjects
         public async Task<IActionResult> Index()
         {
             var currUser = _context.Users.First(x => x.Email.Equals(User.Identity.Name));
-            var plans = await _context.Plans.Where(plan => plan.User.Equals(currUser)).ToListAsync();
-            return View(plans);
+            var subjects = await _context.Subjects.Where(plan => plan.User.Equals(currUser)).ToListAsync();
+            return View(subjects);
         }
 
         // GET: Plans/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Plans == null)
+            if (id == null || _context.Subjects == null)
             {
                 return NotFound();
             }
 
-            var plan = await _context.Plans
+            var subjects = await _context.Subjects
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (plan == null)
+            if (subjects == null)
             {
                 return NotFound();
             }
 
-            return View(plan);
+            return View(subjects);
         }
 
-        // GET: Plans/Create
+        // GET: Subjects/Create
         public IActionResult Create()
         {
-            var newPlan = new Plan();
+            var newSubject = new Subject();
             var userEmail = User?.Identity?.Name;
-            newPlan.User = _context.Users.First(x => x.Email.Equals(userEmail));
-            return View(newPlan);
+            newSubject.User = _context.Users.First(x => x.Email.Equals(userEmail));
+            return View(newSubject);
         }
 
         // POST: Plans/Create
@@ -61,12 +62,12 @@ namespace ScheduleCreator.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Plan plan)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Subject subject)
         {
             //var planId = _context.Plans.Max(plan => plan.Id);
             var userEmail = User?.Identity?.Name;
-            plan.User = _context.Users.First(x => x.Email.Equals(userEmail));
-            _context.Plans.Add(plan);
+            subject.User = _context.Users.First(x => x.Email.Equals(userEmail));
+            _context.Subjects.Add(subject);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
@@ -74,17 +75,17 @@ namespace ScheduleCreator.Controllers
         // GET: Plans/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Plans == null)
+            if (id == null || _context.Subjects == null)
             {
                 return NotFound();
             }
 
-            var plan = await _context.Plans.Include(x => x.User).SingleAsync(i => i.Id == id);
-            if (plan == null)
+            var subject = await _context.Subjects.Include(x => x.User).SingleAsync(i => i.Id == id);
+            if (subject == null)
             {
                 return NotFound();
             }
-            return View(plan);
+            return View(subject);
         }
 
         // POST: Plans/Edit/5
@@ -92,29 +93,29 @@ namespace ScheduleCreator.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Plan plan)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Subject subject)
         {
-            if (id != plan.Id)
+            if (id != subject.Id)
             {
                 return NotFound();
             }
 
             try
             {
-                var changedPlan = await _context.Plans.Include(x => x.User).FirstAsync(x => x.Id == plan.Id);
-                changedPlan.Name = plan.Name;
-                _context.Update(changedPlan);
+                var changedSubject = await _context.Subjects.Include(x => x.User).FirstAsync(x => x.Id == subject.Id);
+                changedSubject.Name = subject.Name;
+                _context.Update(changedSubject);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PlanExists(plan.Id))
+                if (!SubjectExists(subject.Id))
                 {
                     return NotFound();
                 }
                 else
                 {
-                    return View(plan);
+                    return View(subject);
                 }
             }
             return RedirectToAction(nameof(Index));
@@ -123,19 +124,19 @@ namespace ScheduleCreator.Controllers
         // GET: Plans/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Plans == null)
+            if (id == null || _context.Subjects== null)
             {
                 return NotFound();
             }
 
-            var plan = await _context.Plans
+            var subject = await _context.Subjects
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (plan == null)
+            if (subject == null)
             {
                 return NotFound();
             }
 
-            return View(plan);
+            return View(subject);
         }
 
         // POST: Plans/Delete/5
@@ -147,19 +148,19 @@ namespace ScheduleCreator.Controllers
             {
                 return Problem("Entity set 'AppDBContext.Plans'  is null.");
             }
-            var plan = await _context.Plans.FindAsync(id);
-            if (plan != null)
+            var subject = await _context.Subjects.FindAsync(id);
+            if (subject != null)
             {
-                _context.Plans.Remove(plan);
+                _context.Subjects.Remove(subject);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PlanExists(int id)
+        private bool SubjectExists(int id)
         {
-            return (_context.Plans?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Subjects?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var SubjectsList = ViewBag.Subjects as List<string>; 
 }
 
 <h1>Create</h1>
@@ -15,8 +16,21 @@
             <div asp-validation-summary="None" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                    @if (SubjectsList != null && SubjectsList.Count() != 0)
+                    {
+                        <select asp-for="Name" class="form-control">
+                            @foreach (var subject in SubjectsList)
+                        {
+                            <option value="@subject">@subject</option>
+                        }
+                        </select>
+                    }
+                    else
+                    {
+                        <input asp-for="Name" class="form-control" />
+                    }
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <a id="manage" class="link-secondary d-inline" asp-area="" asp-controller="Subjects" asp-action="Create" title="Add subject">Add new Subject</a>
             </div>
             <div class="form-group">
                 <label asp-for="Day" class="control-label"></label>
@@ -49,9 +63,11 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-id="@ViewBag.LinkableId">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
